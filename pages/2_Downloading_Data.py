@@ -11,6 +11,16 @@ st.checkbox("Show neatly", value=True, key="use_container_width")
 
 df = pd.read_csv("Data.csv")
 st.write()
+hide_dataframe_row_index = """
+            <style>
+            .row_heading.level0 {display:none}
+            .blank {display:none}
+            </style>
+            """
+
+# Inject CSS with Markdown
+st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
+
 # Display the dataframe and allow the user to stretch the dataframe
 # across the full width of the container, based on the checkbox value
 st.dataframe(df, use_container_width=st.session_state.use_container_width)

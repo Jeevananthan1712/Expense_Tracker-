@@ -68,6 +68,7 @@ if uploaded_file is not None:
         # max_file = max(files, key=os.path.getctime)
 
         # print(max_file)
+
         with open(r'C:\Users\JEEVA\Downloads\MyDataHTMLFile.html', 'r', encoding='Utf8') as html_file:
             print("Asccessing HTML file")
             content = html_file.read()
@@ -85,12 +86,12 @@ if uploaded_file is not None:
             money = []
             paidSentrec = []
             tosend = []
-            print("Lists created")
-
+            month = []
+            year = []
+            dead = []
             # tosenss = []
             for tag in tags:
                 sentence = tag.text
-                print("Sentence accessed")
                 # date = tag
                 # print(date)
                 # print(sentence)
@@ -103,39 +104,51 @@ if uploaded_file is not None:
                 num = tag.text.split(" ")[1].replace('â‚¹', ' ')
                 numm = num.split(".")[0]
                 conditions = tag.text.split()[0]
-                money.append(numm)
-                paidSentrec.append(conditions)
+                # print(conditions)
                 txt = sentence.split("using")[0].replace("\n", "").strip()
                 # print(txt)
-                # tosenss = sentence.split("using")[-1].replace("\n","").strip()
-                # daa = tosenss.split()[2].split()
-
+                date = sentence.split("using")[-1].replace("\n", "").strip()
+                # month = date.split()
+                # print(sentence)
+                # print(month)
                 if (conditions == 'Paid'):
+                    money.append(numm.replace("₹", ""))
+                    paidSentrec.append(conditions)
                     tosend.append(txt.split("to")[-1])
-                    paidlist.append(numm)
-                    print("Loading data...")
+                    paidlist.append(numm.replace("₹", ""))
+                    month.append(date.split()[3])
+                    year.append(date.split()[4])
+                    # print("Loading data...")
                     # print(tosend)
                 elif conditions == 'Sent':
+                    money.append(numm.replace("₹", ""))
+                    paidSentrec.append(conditions)
                     tosend.append("using " + sentence.split("using")[-1].replace("\n", "").strip())
-                    sendlist.append(numm)
-
+                    sendlist.append(numm.replace("₹", ""))
+                    month.append(date.split()[3])
+                    year.append(date.split()[4])
                     # print(sentence.split("using")[-1].replace("\n",""))
+                elif conditions == 'Used':
+                    dead.append(numm)
                 else:
+                    money.append(numm.replace("₹", ""))
+                    paidSentrec.append(conditions)
                     tosend.append("Received to this Account")
-                    reclist.append(numm)
-
-            # if conditions == 'Paid':
-            #     mainpartpaidlist.append(mainpart)
-            # elif conditions == 'Sent':
-            #     mainpartsendlist.append(mainpart)
-            # else:
+                    reclist.append(numm.replace("₹", ""))
+                    month.append(date.split()[2])
+                    year.append(date.split()[3])
+                # if conditions == 'Paid':
+                #     mainpartpaidlist.append(mainpart)
+                # elif conditions == 'Sent':
+                #     mainpartsendlist.append(mainpart)
+                # else:
         # print(tosenss)
         # print(daa)
         # print(tosend)
         # print(mainpartreclist)
-        # print(pd.Series(tosend))
-        # print(pd.Series(money))
-        # print(pd.Series(paidSentrec))
+        print(pd.Series(tosend))
+        print(pd.Series(money))
+        print(pd.Series(paidSentrec))
         # ********************************************************************************************************************
         paidlistlen = len(paidlist)
         reclistlen = len(reclist)
@@ -171,10 +184,17 @@ if uploaded_file is not None:
         # print(pd.Series(sendlist))
         # print("*************************************")
         # print(pd.Series(reclist))
-        # print("*************************************")
+        # print("*************************************")\
+        # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        # print(len(money))
+        # print(len(paidSentrec))
+        # print(len(tosend))
+        # print(len(month))
+        # print(len(year))
         # ***********************************************************************************************************
-        data = {"Money": money, "Category": paidSentrec, "Send To": tosend}
+        data = {"Money": money, "Category": paidSentrec, "Send To": tosend, "Month": month, "Year": year}
         data2 = {"Send": sendlist, "Paid": paidlist, "Recived": reclist}
+        # print(data)
         # print(len(money))
         # print(len(paidSentrec))
         # print(len(tosend))
@@ -182,24 +202,41 @@ if uploaded_file is not None:
         dff = pd.DataFrame(data2)
         # print(df)
         df.to_csv("Data.csv", index=False)
-        print(df.style.highlight_max())
         dff.to_csv("MoneyData.csv", index=False)
 
         print("Converted to csv")
 
         # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         st.header("Money Send/paid and Received Data ")
+        st.checkbox("Show neatly", value=True, key="use_container_width")
+
         df = pd.read_csv("Data.csv")
-        dff = pd.read_csv("MoneyData.csv")
-        # st.line_chart(df)
-        st.write(df)
+        st.write()
+        # Display the dataframe and allow the user to stretch the dataframe
+        # across the full width of the container, based on the checkbox value
+        st.dataframe(df, use_container_width=st.session_state.use_container_width)
+
+        with st.expander("See explanation"):
+            st.subheader("General Transaction History")
+            st.caption("Based on the data you provided")
+            st.write("You might have notied that the file you have uploaded is of HTML format \n The data has been converted into a CSV format file for analysis purpose. \n Here you can see that the data is divided into 5 major colums and each col has it's own data collection")
 
         st.header("Category Wise Distribution ")
-        st.write(dff)
+        # st.write(dff)
 
-        import pandas as pd
-        import streamlit as st
+        # Boolean to resize the dataframe, stored as a session state variable
+        st.checkbox("Show neatly", value=True, key="use_container_width_2nd")
 
+        dfd = pd.read_csv("MoneyData.csv")
+
+        # Display the dataframe and allow the user to stretch the dataframe
+        # across the full width of the container, based on the checkbox value
+        st.dataframe(dfd, use_container_width=st.session_state.use_container_width_2nd)
+
+        with st.expander("See explanation"):
+            st.subheader("Category based  Transaction History")
+            st.caption("Based on the data you provided")
+            st.write("Here the data has been converted into 3 major categories , based on your transcation history we have arranged them accordingly")
 
         # Cache the dataframe so it's only loaded once
 

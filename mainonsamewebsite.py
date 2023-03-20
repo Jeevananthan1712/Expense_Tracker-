@@ -20,6 +20,9 @@ with open('My Activity.html', 'r' , encoding='utf8') as html_file:
     money = []
     paidSentrec = []
     tosend =[]
+    month = []
+    year = []
+    dead = []
     # tosenss = []
     for tag in tags:
         sentence = tag.text
@@ -35,26 +38,39 @@ with open('My Activity.html', 'r' , encoding='utf8') as html_file:
         num = tag.text.split(" ")[1].replace('â‚¹', ' ')
         numm = num.split(".")[0]
         conditions = tag.text.split()[0]
-        money.append(numm)
-        paidSentrec.append(conditions)
+        print(conditions)
         txt = sentence.split("using")[0].replace("\n","").strip()
         # print(txt)
-        # tosenss = sentence.split("using")[-1].replace("\n","").strip()
-        # daa = tosenss.split()[2].split()
-
+        date = sentence.split("using")[-1].replace("\n","").strip()
+        # month = date.split()
+        print(sentence)
+        # print(month)
         if(conditions == 'Paid'):
+            money.append(numm.replace("₹", ""))
+            paidSentrec.append(conditions)
             tosend.append(txt.split("to")[-1])
-            paidlist.append(numm)
-            print("Loading data...")
+            paidlist.append(numm.replace("₹", ""))
+            month.append(date.split()[3])
+            year.append(date.split()[4])
+            # print("Loading data...")
             # print(tosend)
         elif conditions == 'Sent':
+            money.append(numm.replace("₹", ""))
+            paidSentrec.append(conditions)
             tosend.append("using "+sentence.split("using")[-1].replace("\n","").strip())
-            sendlist.append(numm)
-
+            sendlist.append(numm.replace("₹", ""))
+            month.append(date.split()[3])
+            year.append(date.split()[4])
             # print(sentence.split("using")[-1].replace("\n",""))
+        elif conditions == 'Used':
+            dead.append(numm)
         else:
+            money.append(numm.replace("₹", ""))
+            paidSentrec.append(conditions)
             tosend.append("Received to this Account")
-            reclist.append(numm)
+            reclist.append(numm.replace("₹", ""))
+            month.append(date.split()[2])
+            year.append(date.split()[3])
 
         # if conditions == 'Paid':
         #     mainpartpaidlist.append(mainpart)
@@ -65,9 +81,9 @@ with open('My Activity.html', 'r' , encoding='utf8') as html_file:
 # print(daa)
 # print(tosend)
 # print(mainpartreclist)
-# print(pd.Series(tosend))
-# print(pd.Series(money))
-# print(pd.Series(paidSentrec))
+print(pd.Series(tosend))
+print(pd.Series(money))
+print(pd.Series(paidSentrec))
 # ********************************************************************************************************************
 paidlistlen = len(paidlist)
 reclistlen = len(reclist)
@@ -103,14 +119,23 @@ if sendlistlen > paidlistlen and sendlistlen > reclistlen:
 # print(pd.Series(sendlist))
 # print("*************************************")
 # print(pd.Series(reclist))
-# print("*************************************")
+# print("*************************************")\
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+# print(len(money))
+# print(len(paidSentrec))
+# print(len(tosend))
+# print(len(month))
+# print(len(year))
 # ***********************************************************************************************************
-data = {"Money": money, "Category": paidSentrec , "Send To" : tosend}
+data = {"Money": money, "Category": paidSentrec , "Send To" : tosend ,"Month" : month , "Year" : year}
 data2 = {"Send" : sendlist , "Paid" : paidlist, "Recived" : reclist}
+# print(data)
 # print(len(money))
 # print(len(paidSentrec))
 # print(len(tosend))
 df = pd.DataFrame(data)
+# df = df["Money"].str.replace("₹", "")
+print(df)
 dff = pd.DataFrame(data2)
 # print(df)
 df.to_csv("Data.csv" , index=False)
