@@ -26,12 +26,19 @@ st.markdown(hide_dataframe_row_index, unsafe_allow_html=True)
 st.dataframe(df, use_container_width=st.session_state.use_container_width)
 
 csvdata = convert_df(df)
-st.download_button(
+downloaded = st.download_button(
     label="Download data as CSV",
     data=csvdata,
     file_name='Data.csv.csv',
     mime='text/csv',
 )
+if downloaded:
+    with st.sidebar:
+        st.success("CSV file downloaded as 'Data.csv'")
+
+
+
+
 st.header("Category Wise Distribution ")
 # st.write(dff)
 
@@ -46,9 +53,12 @@ dfd = pd.read_csv("MoneyData.csv")
 st.dataframe(dfd, use_container_width=st.session_state.use_container_width_2nd)
 # st.bar_chart(dff)
 csv = convert_df(dfd)
-st.download_button(
+donwloaded_2 = st.download_button(
     label="Download data as CSV",
     data=csv,
     file_name='MoneyData.csv',
     mime='html/text',
 )
+if donwloaded_2:
+    with st.sidebar:
+        st.success("CSV file downloaded as 'MoneyData.csv'")

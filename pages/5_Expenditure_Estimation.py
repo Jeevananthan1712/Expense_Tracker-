@@ -16,7 +16,7 @@ st.header("Inputs")
 userIncome= st.number_input("Enter Income",False)
 fam_size = st.slider("Family Size",0,20)
 area = st.selectbox('Select a Area', ('Rural', 'Urban'), False)
-expenses = st.slider('Enpenditure',100, 50000)
+expenses = st.slider('Enpenditure',100, 2000)
 st.write('Your Income is:',userIncome)
 st.write('Your family size is:',fam_size)
 st.write('You selected:', area)
@@ -32,23 +32,10 @@ if userIncome and fam_size and area and expenses:
         for percent_complete in range(100):
             time.sleep(0.1)
             my_bar.progress(percent_complete + 1, text=progress_text)
-        # Import writer class from csv module
-
-        # List that we want to add as a new row
         List = [userIncome, fam_size, area,expenses]
-
-        # Open our existing CSV file in append mode
-        # Create a file object for this file
         with open('expenditure_data.csv', 'a') as f_object:
-            # Pass this file object to csv.writer()
-            # and get a writer object
             writer_object = writer(f_object)
-
-            # Pass the list as an argument into
-            # the writerow()
             writer_object.writerow(List)
-
-            # Close the file object
             f_object.close()
 
         dataset = pd.read_csv("expenditure_data.csv")
@@ -81,7 +68,6 @@ if userIncome and fam_size and area and expenses:
 
         actual_data = y_transformer.inverse_transform(Y_train_transform)
         predicted_data = y_transformer.inverse_transform(predictions)
-        # st.write(predicted_data)
         fig = plt.figure()
         plt.plot(actual_data, label="Actual Price", color='green')
         plt.plot(predicted_data, label="Predicted Price", color='red')
@@ -105,14 +91,12 @@ if userIncome and fam_size and area and expenses:
         st.pyplot(figg)
 
 
-        # y_pred = [500, 3, 1]
         li = [[userIncome , fam_size]]
         if List[2] == 'Rural':
             li[0].append(0)
         else:
             li[0].append(1)
 
-        # st.write(li)
         y_trans = X_transformer.transform(li)
 
         y = model.predict(y_trans)
@@ -122,24 +106,3 @@ if userIncome and fam_size and area and expenses:
         st.subheader("Expected expenditure for the given income: ")
         st.caption(y_new[0][0])
 
-        # fig = plt.figure()
-        # plt.plot(Y_train_transform, label="Actual Price", color='green')
-        # plt.plot(predictions, label="Predicted Price", color='red')
-        # plt.title('Expense Tracker')
-        # plt.xlabel('days')
-        # plt.ylabel('Price')
-        # st.pyplot(fig)
-        #
-        # pred = model.predict(X_test_transform)
-        #
-        # print(pred)
-        # figg = plt.figure()
-        # plt.plot(Y_test_transform, label="Actual Price", color='green')
-        # plt.plot(pred, label="Predicted Price", color='red')
-        # plt.title('Expense Tracker')
-        # plt.xlabel('days')
-        # plt.ylabel('Price')
-        # # plt.show()
-        # st.pyplot(figg)
-
-        # New Section

@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 
+st.subheader("Select required months ")
 options = st.multiselect(
     'Select Months',
     ['Jan' , 'Feb', 'Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'])

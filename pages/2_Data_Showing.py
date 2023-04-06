@@ -1,13 +1,9 @@
-import streamlit as st
 import pandas as pd
 from io import StringIO
-import csv
 from bs4 import BeautifulSoup
-import string
-import glob
-import os.path
 import time
 import streamlit as st
+import os
 
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -23,44 +19,51 @@ st.title('Upload File here')
 st.caption('Make sure it' + "'" + 's a HTML-file.')
 uploaded_file = st.file_uploader("Choose a file", type='html')
 if uploaded_file is not None:
-    # To read file as bytes:
     bytes_data = uploaded_file.getvalue()
-    # st.write(bytes_data)
-
-    # To convert to a string based IO:
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-    # st.write(stringio)
-
-    # To read file as string:
     string_data = stringio.read()
-    # st.write(string_data)
-
-    # Can be used wherever a "file-like" object is accepted:
-    # dataframe = pd.read_html(uploaded_file)
-    # st.write(dataframe)
     html = convert_df(string_data)
+
+
     downloaded = st.download_button(
-        label="Download file",
-        data=html,
-        file_name='MyDataHTMLFile.html',
-        mime='html/text',
-    )
+            label="Download file",
+            data=html,
+            file_name='MyDataHTMLFile.html',
+            mime='html/text',
+        )
 
     # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     if downloaded:
-        path = r'C:\Users\JEEVA\Downloads\MyDataHTMLFile.html'
+        directory = "Gva's_and_Anil's_SpendSync"
+        parent_dir = r"C:\Users\JEEVA\Downloads"
+        path = os.path.join(parent_dir, directory)
+        # time.sleep(5)
+        os.mkdir(path)
+        print("Directory '% s' created" % directory)
+        # newpath = r"C:\Users\JEEVA\Downloads\Gva's_and_Anil's_SpendSync"
+        # os.open(newpath)
+        # new_parent_dir = r"C:\Users\JEEVA\Downloads\Gva's_and_Anil's_SpendSync"
+        # new_directory = "NewFloder"
+        # os.access(new_parent_dir, os.F_OK)
+        # new_path = os.path.join(new_parent_dir, new_directory)
+        # os.mkdir(new_path)
+        # opened = os.startfile(path)
         # st.write(path)
+
+
+
         with st.spinner('Analysing your html file...'):
-            time.sleep(5)
+            time.sleep(3)
         with st.spinner('Correcting things...'):
-            time.sleep(5)
+            time.sleep(3)
         with st.spinner('Almost completed..'):
-            time.sleep(5)
+            time.sleep(3)
         with st.spinner('Hoorayy!!'):
-            time.sleep(5)
+            time.sleep(2)
             st.balloons()
         st.success('Converted to CSV file!')
+
         # folder_path = r'C:\"Users\JEEVA\Downloads'
         # file_type = r''
         # files = glob.glob(folder_path + file_type)
@@ -75,7 +78,15 @@ if uploaded_file is not None:
             soup = BeautifulSoup(content, 'lxml')
             tags = soup.find_all('div', class_='content-cell mdl-cell mdl-cell--6-col mdl-typography--body-1')
             # print(tags)
-
+            file = 'MyDataHTMLFile.html'
+            with open(os.path.join(path, file), 'w',encoding="utf-8") as fp:
+                print("Created file")
+                fp.write(content)
+                print("contents written")
+                with st.sidebar:
+                    # st.success("Created folder"+path+" and file"+file)
+                    st.success("Created folder '% s'" % directory )
+                    st.success("Created file '% s'" % file)
             # ***************************************************************************************************************
             paidlist = []
             reclist = []
@@ -92,13 +103,6 @@ if uploaded_file is not None:
             # tosenss = []
             for tag in tags:
                 sentence = tag.text
-                # date = tag
-                # print(date)
-                # print(sentence)
-                # if(sentence.startswith('U')):
-                # sentence = sentence.replace(sentence ," ")
-                # print(sentence)
-                # print(sentence)
                 mainpart = sentence.split("using")[0]
                 # print(mainpart)
                 num = tag.text.split(" ")[1].replace('â‚¹', ' ')
@@ -239,6 +243,8 @@ if uploaded_file is not None:
             st.write("Here the data has been converted into 3 major categories , based on your transcation history we have arranged them accordingly")
 
         # Cache the dataframe so it's only loaded once
+        with st.sidebar:
+            st.success('Generated CSV files"')
 
 
 

@@ -94,11 +94,8 @@ Income,Family Size,Location,Expenditure
 930,1,Urban,200
 830,2,Rural,300
 440,5,Urban,400
-500,3,Rural,100
-633,2,Rural,384
-633,2,Rural,384
-633,2,Rural,384
-2000,3,Urban,1305
-1800,3,Rural,1163
-500,2,Rural,100
-500,1,Rural,100
+1000,3,Urban,700
+900,5,Rural,350
+500,2,Rural,100
+1250,2,Urban,800
+5000,1,Rural,2723

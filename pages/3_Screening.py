@@ -1,19 +1,19 @@
 import streamlit as st
-import seaborn as sbn
-import matplotlib.pyplot as plt
 import pandas as pd
-# loading the dataset using the seaborn library
-# import streamlit as st
 import altair as alt
 import time
 
 st.title("Select your preference.")
 multi =  st.checkbox('Multi-Select')
+with st.expander("See explanation"):
+    st.subheader("Multi-Select")
+    st.caption("Select year and month")
+    st.write("Year and Month can be selected which would lead to the Graph containing the particular month in the specified year")
 single =  st.checkbox('Single-Select')
-
-
-
-
+with st.expander("See explanation"):
+    st.subheader("Single-select")
+    st.caption("Select Month or year")
+    st.write("You can select either year or month which can lead to the Graph containing the data of the specified year or month    ")
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 # Single/Month-Wise

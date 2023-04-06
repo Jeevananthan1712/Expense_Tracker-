@@ -9,7 +9,7 @@ progress_text = "Loading Instruction. Please wait."
 my_bar = st.progress(0, text=progress_text)
 
 for percent_complete in range(100):
-    time.sleep(0.1)
+    time.sleep(0.01)
     my_bar.progress(percent_complete + 1, text=progress_text)
     
 
@@ -18,7 +18,7 @@ with st.sidebar:
     time.sleep(0.5)
 
 if loaded:
-    st.title("Experense Tarcko")
+    st.title("SpendSync")
     st.caption("Steps to follow , if you want this to work!")
     st.subheader("Prerequisite")
     st.write("1. Click on https://takeout.google.com/")
@@ -33,27 +33,34 @@ if loaded:
     st.write("8. Horrayy!! CSV file is generated ")
 
     st.title("Features")
-    st.subheader("Data_Showing")
+    st.subheader("Data Showing")
     st.write("9. Dataframes are displayed in the website")
     st.write("10. 2 types of dataframes are created ")
-    st.write("-      1. Gendral Transcation History ")
-    st.write("-      2. Category based transcation history")
+    st.write("-       Gendral Transcation History ")
+    st.write("-       Category based transcation history")
 
 
-    st.subheader("Downloading_data")
+    st.subheader("Retrieving data")
     st.write("11. Here you can basically download the csv files")
     st.write("12. Click the button to start the download")
 
-    st.subheader("Filteration")
+    st.subheader("Screening")
     st.write("13. Two types of filtering is available")
-    st.write("-      1. Single select ")
-    st.write("-      2. Multi select")
+    st.write("-      Single select ")
+    st.write("-      Multi select")
     st.write("14. If Single select is selected then inside it there are two types:")
-    st.write("-      1. Month wise ")
-    st.write("-      2. Year wise")
+    st.write("-       📈Month wise ")
+    st.write("-       📈Year wise")
     st.write("15. Charts are prepared accordingly")
     st.write("16. If Multi select is selected then, you can select both month and year")
 
+    st.subheader("Comparing_Months")
+    st.write("17. Here you have to select the Months in multiple-Select mode")
+    st.write("18. After selecting you will get charts in 2 ways")
+    st.write("-       📈Category wise ")
+    st.write("-       📈Year wise")
 
-
+    st.subheader("Expenditure Estimation")
+    st.write("19. User's should give inputs")
+    st.write("20. Expenditure will be estimated and displayed")
 
