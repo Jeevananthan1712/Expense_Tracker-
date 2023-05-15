@@ -22,6 +22,7 @@ if loaded:
     st.caption("Steps to follow , if you want this to work!")
     st.subheader("Prerequisite")
     st.write("1. Click on https://takeout.google.com/")
+    st.caption(" - or for demo purpose you can use my data by clicking here.")
     st.write("2. Select only the 'GPAY' data.")
     st.write("3. After selection the data will be downloaded")
 

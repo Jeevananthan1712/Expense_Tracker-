@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import time
 import streamlit as st
 import os
+from pathlib import Path
 
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -35,9 +36,11 @@ if uploaded_file is not None:
     # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
     if downloaded:
-        directory = "Gva's_and_Anil's_SpendSync"
-        parent_dir = r"C:\Users\JEEVA\Downloads"
-        path = os.path.join(parent_dir, directory)
+        path_to_download_folder = str(os.path.join(Path.home(), "Downloads"))
+
+
+        directory = "SpendSync"
+        path = os.path.join(path_to_download_folder, directory)
         # time.sleep(5)
         os.mkdir(path)
         print("Directory '% s' created" % directory)
@@ -71,8 +74,8 @@ if uploaded_file is not None:
         # max_file = max(files, key=os.path.getctime)
 
         # print(max_file)
-
-        with open(r'C:\Users\JEEVA\Downloads\MyDataHTMLFile.html', 'r', encoding='Utf8') as html_file:
+        new_path = os.path.join(path_to_download_folder,"MyDataHTMLFile.html")
+        with open(new_path, 'r', encoding='Utf8') as html_file:
             print("Asccessing HTML file")
             content = html_file.read()
             soup = BeautifulSoup(content, 'lxml')
@@ -205,10 +208,11 @@ if uploaded_file is not None:
         df = pd.DataFrame(data)
         dff = pd.DataFrame(data2)
         # print(df)
+        # with open(path, 'w'):
         df.to_csv("Data.csv", index=False)
         dff.to_csv("MoneyData.csv", index=False)
-
         print("Converted to csv")
+            # st.warning("Created")
 
         # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
         st.header("Money Send/paid and Received Data ")
